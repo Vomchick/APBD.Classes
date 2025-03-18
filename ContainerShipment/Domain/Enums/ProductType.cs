@@ -1,4 +1,4 @@
-﻿namespace ContainerShipment.Domain;
+﻿namespace ContainerShipment.Domain.Enums;
 
 public enum ProductType
 {

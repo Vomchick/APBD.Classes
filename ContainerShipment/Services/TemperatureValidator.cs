@@ -1,4 +1,4 @@
-﻿using ContainerShipment.Domain;
+﻿using ContainerShipment.Domain.Enums;
 
 namespace ContainerShipment.Services;
 

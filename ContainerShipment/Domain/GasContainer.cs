@@ -12,5 +12,5 @@ public class GasContainer : HazardousContainer
         Pressure = pressure > 0 ? pressure : throw new ArgumentOutOfRangeException("Pressure must be greater than zero");
     }
 
-    public override void EmptyCargoMass() => CargoMass += 0.05;
+    public override void EmptyCargoMass() => CargoMass *= 0.05;
 }
