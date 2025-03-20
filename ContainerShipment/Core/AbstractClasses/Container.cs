@@ -1,4 +1,5 @@
-﻿using ContainerShipment.Domain.Exceptions;
+﻿using System.Text;
+using ContainerShipment.Domain.Exceptions;
 
 namespace ContainerShipment.Core.AbstractClasses;
 
@@ -32,7 +33,19 @@ public abstract class Container
         CargoMass += mass;
     }
 
-    public virtual void EmptyCargoMass() => CargoMass = 0;
+    public virtual void Unload() => CargoMass = 0;
 
     protected virtual bool CanLoadCargo(double mass) => CargoMass + mass > MaxPayload;
+
+    public virtual double GetCompleteWeight() => CargoMass + TareWeight;
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append($"Container {SerialNumber}\n");
+        builder.Append(
+            $"height: {Height}, depth: {Depth}, tare weight: {TareWeight}, maximum payload: {MaxPayload}, cargo mass: {CargoMass}\n");
+
+        return builder.ToString();
+    }
 }
