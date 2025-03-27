@@ -89,7 +89,12 @@ namespace LegacyApp
                 }
             }
 
-            return !user.HasCreditLimit || user.CreditLimit >= 500;
+            if (user.HasCreditLimit && user.CreditLimit < 500)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

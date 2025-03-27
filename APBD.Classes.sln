@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyApp", "Task2\LegacyAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyAppConsumer", "Task2\LegacyAppConsumer\LegacyAppConsumer.csproj", "{75FA845E-D573-C4B8-B2D4-AFBAA938677C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Test", "Task2\UserService.Test\UserService.Test.csproj", "{B61AAD12-DC6D-5D1A-B71E-329293412D19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Task2\UserService.Test\Tests.csproj", "{B61AAD12-DC6D-5D1A-B71E-329293412D19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
