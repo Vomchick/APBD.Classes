@@ -7,14 +7,24 @@ namespace ContainerShipment.Domain;
 public class Ship
 {
     private double _currentContainerWeight = 0.0;
+    private List<Container> Containers;
 
-    public List<Container> Containers { get; }
     public double MaxSpeed { get; set; }
     public int MaxContainersCount { get; set; }
     public double MaxContainersWeight { get; set; }
 
-    public Ship(List<Container> containers)
+    public Ship(double maxSpeed, int maxContainersCount, double maxContainersWeight, List<Container>? containers = null)
     {
+        MaxSpeed = maxSpeed;
+        MaxContainersCount = maxContainersCount;
+        MaxContainersWeight = maxContainersWeight;
+
+        if(containers == null)
+        {
+            Containers = new List<Container>();
+            return;
+        }
+
         Containers = containers;
 
         if (containers.Count == 0)
@@ -90,14 +100,14 @@ public class Ship
         }
     }
 
-    public bool TransferContainer(Container container, Ship otherShip)
+    public bool TransferContainer(Container container, Ship shipToTransfer)
     {
         var removed = Remove(container);
 
         if (!removed)
             return removed;
 
-        var loaded = otherShip.Load(container);
+        var loaded = shipToTransfer.Load(container);
 
         return loaded;
     }

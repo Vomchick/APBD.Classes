@@ -35,7 +35,7 @@ public abstract class Container
 
     public virtual void Unload() => CargoMass = 0;
 
-    protected virtual bool CanLoadCargo(double mass) => CargoMass + mass > MaxPayload;
+    protected virtual bool CanLoadCargo(double mass) => CargoMass + mass <= MaxPayload;
 
     public virtual double GetCompleteWeight() => CargoMass + TareWeight;
 

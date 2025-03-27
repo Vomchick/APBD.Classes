@@ -12,8 +12,11 @@ public abstract class HazardousContainer : Container, IHazardNotifier
     {
         if (mass <= 0) throw new ArgumentException();
 
-        if (CanLoadCargo(mass)) 
+        if (CanLoadCargo(mass))
+        {
+            CargoMass += mass;
             return;
+        }
 
         NotifyHazard("Cannot load cargo");
         throw new OverfillException("Cannot load cargo");
