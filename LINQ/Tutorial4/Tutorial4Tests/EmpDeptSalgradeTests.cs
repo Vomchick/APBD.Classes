@@ -1,4 +1,5 @@
-﻿using Tutorial3.Models;
+﻿using System.Diagnostics;
+using Tutorial3.Models;
 
 public class EmpDeptSalgradeTests
 {
@@ -104,9 +105,9 @@ public class EmpDeptSalgradeTests
         var emps = Database.GetEmps();
         var grades = Database.GetSalgrades();
 
-        //var result = emps.Join(grades, emp => emp.DeptNo, grade => (grade.Losal, grade.Hisal), (emp, grade) => (emp.EName, grade.Grade);
+        var result = emps.Select(e => (e.EName, Grade: grades.Where(g => e.Sal >= g.Losal && e.Sal <= g.Hisal).Select(g => g.Grade).First()));
 
-        //Assert.Contains(result, r => r.EName == "ALLEN" && r.Grade == 3);
+        Assert.Contains(result, r => r.EName == "ALLEN" && r.Grade == 3);
     }
 
     // 9. Aggregation (AVG)

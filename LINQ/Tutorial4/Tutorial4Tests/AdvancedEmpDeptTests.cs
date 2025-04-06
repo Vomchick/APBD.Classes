@@ -121,9 +121,9 @@ public class AdvancedEmpDeptTests
         var depts = Database.GetDepts();
         var grades = Database.GetSalgrades();
 
-        //var result = emps.Join(depts, e => e.DeptNo, d => d.DeptNo, (e, d) => (e, d))
-        //    .Join(grades, ed => ed.e.Sal, g => g.);
+        var result = emps.Join(depts, e => e.DeptNo, d => d.DeptNo, (e, d) => (e, d))
+            .Select(ed => (ed.e.EName, ed.d.DName, Grade: grades.Where(g => ed.e.Sal >= g.Losal && ed.e.Sal <= g.Hisal).Select(g => g.Grade).First()));
 
-        //Assert.Contains(result, r => r.EName == "ALLEN" && r.DName == "SALES" && r.Grade == 3);
+        Assert.Contains(result, r => r.EName == "ALLEN" && r.DName == "SALES" && r.Grade == 3);
     }
 }
