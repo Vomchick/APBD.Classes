@@ -112,7 +112,7 @@ public class ClientService : IClientService
         cmd.Parameters.AddWithValue("@Telephone", client.Telephone);
         cmd.Parameters.AddWithValue("@Pesel", client.Pesel);
 
-        var result = await cmd.ExecuteScalarAsync(token);
+        var result = await cmd.ExecuteNonQueryAsync(token);
         return Convert.ToInt32(result);
     }
 

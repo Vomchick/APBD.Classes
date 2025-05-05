@@ -60,6 +60,7 @@ namespace Tutorial7.Controllers
 
         [HttpPut("{clientId:int}/trips/{tripId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateClientTripAsync(
@@ -83,6 +84,41 @@ namespace Tutorial7.Controllers
                         "Failed to update client trip");
                 }
 
+                return Ok();
+            }
+            catch (TripDoesNotExistException)
+            {
+                return NotFound($"Trip with id: {tripId} does not exist");
+            }
+            catch (ClientDoesNotExistException)
+            {
+                return NotFound($"Client with id: {clientId} does not exist");
+            }
+        }
+
+        [HttpDelete("{clientId:int}/trips/{tripId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteClientTripAsync(
+            [FromRoute] int clientId,
+            [FromRoute] int tripId,
+            CancellationToken token = default)
+        {
+            if (clientId <= 0)
+                return BadRequest($"{nameof(clientId)} should be greater than 0");
+            if (tripId <= 0)
+                return BadRequest($"{nameof(tripId)} should be greater than 0");
+            try
+            {
+                var result = await _tripService.DeleteClientTripAsync(clientId, tripId, token);
+                if (!result)
+                {
+                    return CreateProblemResult(
+                        StatusCodes.Status500InternalServerError,
+                        "Failed to delete client trip");
+                }
                 return Ok();
             }
             catch (TripDoesNotExistException)

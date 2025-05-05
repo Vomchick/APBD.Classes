@@ -84,6 +84,7 @@ public class TripService : ITripService
     public async ValueTask<bool> UpdateClientTripAsync(int clientId, int tripId, CancellationToken token = default)
     {
         // Keeping in mind that controlling the flow using the exceptions like here is not the best approach :)
+        // Theoretically this can be wrapped as a transaction, but who cares :)
         await ValidateTripExistsAsync(tripId, token);
         await ValidateClientExistsAsync(clientId, token);
 
@@ -124,7 +125,7 @@ public class TripService : ITripService
         addClientTripCommand.Parameters.AddWithValue("@registeredAt", Convert.ToInt32(_dateTimeProvider.UtcNow.ToString("yyyyMMdd")));
         addClientTripCommand.Parameters.AddWithValue("@paymentDate", 0); //It will break at reading if value is DBNull.Value
 
-        var rowsAffected = Convert.ToInt32(await addClientTripCommand.ExecuteScalarAsync(token));
+        var rowsAffected = Convert.ToInt32(await addClientTripCommand.ExecuteNonQueryAsync(token));
         return rowsAffected > 0;
     }
 
@@ -160,5 +161,40 @@ public class TripService : ITripService
         var clientExists = await _clientService.ClientExistsByIdAsync(clientId, token);
         if (!clientExists)
             throw new ClientDoesNotExistException(clientId);
+    }
+
+    public async Task<bool> DeleteClientTripAsync(int clientId, int tripId, CancellationToken token)
+    {
+        const string checkQuery = """
+                                    SELECT COUNT(*)
+                                    FROM Client_Trip
+                                    WHERE IdClient = @clientId AND IdTrip = @tripId;
+                                """;
+
+        await using SqlConnection con = new(_connectionString);
+        await con.OpenAsync(token);
+
+        await using SqlCommand checkCmd = new(checkQuery, con);
+        checkCmd.Parameters.AddWithValue("@clientId", clientId);
+        checkCmd.Parameters.AddWithValue("@tripId", tripId);
+
+        var exists = Convert.ToInt32(await checkCmd.ExecuteScalarAsync(token)) > 0;
+
+        if (!exists)
+        {
+            return false;
+        }
+
+        const string deleteQuery = """
+                                    DELETE FROM Client_Trip
+                                    WHERE IdClient = @clientId AND IdTrip = @tripId;
+                                """;
+
+        await using SqlCommand deleteCmd = new(deleteQuery, con);
+        deleteCmd.Parameters.AddWithValue("@clientId", clientId);
+        deleteCmd.Parameters.AddWithValue("@tripId", tripId);
+
+        var rowsAffected = await deleteCmd.ExecuteNonQueryAsync(token);
+        return rowsAffected > 0;
     }
 }
