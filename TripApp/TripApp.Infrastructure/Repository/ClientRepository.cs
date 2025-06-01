@@ -1,0 +1,37 @@
+using Microsoft.EntityFrameworkCore;
+using TripApp.Application.Repository;
+
+namespace Trip.Infrastructure.Repository;
+
+public class ClientRepository(TripContext context) : IClientRepository
+{
+    public async Task<bool> ClientExistsAsync(int idClient)
+    {
+        var client = await context.Clients.FirstOrDefaultAsync(x => x.IdClient == idClient);
+        return client is not null;
+    }
+
+    public async Task<bool> ClientHasTripsAsync(int idClient)
+    {
+        return await context.ClientTrips.AnyAsync(ct => ct.IdClient == idClient);
+    }
+
+    public async Task<bool> DeleteClientAsync(int idClient)
+    {
+        var client = await context.Clients.FindAsync(idClient);
+        if (client == null)
+        {
+            return false;
+        }
+
+        context.Clients.Remove(client);
+        await context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> ClientWithPeselNumberExists(string pesel)
+    {
+        var client = await context.Clients.FirstOrDefaultAsync(x => x.Pesel == pesel);
+        return client != null;
+    }
+}
