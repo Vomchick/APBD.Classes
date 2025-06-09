@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.IdentityModel.Tokens.Jwt;
 using Tutorial10.Application.Services;
 using Tutorial10.Application.Services.Interfaces;
 
@@ -10,5 +11,7 @@ public static class ApplicationServicesExtension
     {
         app.AddScoped<IPatientService, PatientService>();
         app.AddScoped<IPrescriptionService, PrescriptionService>();
+        app.AddScoped<IAuthService, AuthService>();
+        app.AddSingleton<JwtHelper>();
     }
 }

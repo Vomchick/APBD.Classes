@@ -1,5 +1,6 @@
 using Tutorial10.Application;
 using Tutorial10.Infrastructure;
+using Tutorial10.Middleware;
 
 namespace Tutorial10
 {
@@ -17,6 +18,8 @@ namespace Tutorial10
             builder.Services.AddSwaggerGen();
             builder.Services.RegisterInfraServices(builder.Configuration);
             builder.Services.RegisterApplicationServices();
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
             var app = builder.Build();
 

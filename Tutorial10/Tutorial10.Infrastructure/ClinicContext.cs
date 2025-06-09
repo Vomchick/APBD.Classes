@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Tutorial10.Core.Models;
+using Tutorial10.Core.DataModels;
 using Tutorial10.Infrastructure.Extensions;
 
 namespace Tutorial10.Infrastructure;
@@ -12,6 +11,7 @@ public class ClinicContext : DbContext
     public virtual DbSet<Prescription> Prescriptions { get; set; } = null!;
     public virtual DbSet<PrescriptionMedicament> PrescriptionMedicaments { get; set; } = null!;
     public virtual DbSet<Medicament> Medicaments { get; set; } = null!;
+    public virtual DbSet<User> Users { get; set; }
 
     public ClinicContext(DbContextOptions<ClinicContext> options)
         : base(options)

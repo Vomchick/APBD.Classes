@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Tutorial10.Application.DTO;
 using Tutorial10.Application.Exceptions;
 using Tutorial10.Application.Services.Interfaces;
@@ -16,11 +17,12 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("{patientId:int}")]
+    [Authorize]
     [ProducesResponseType(typeof(PatientDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> AssignClienttoTrip([FromRoute] int patientId, CancellationToken token = default)
+    public async Task<IActionResult> GetPatient([FromRoute] int patientId, CancellationToken token = default)
     {
         try
         {

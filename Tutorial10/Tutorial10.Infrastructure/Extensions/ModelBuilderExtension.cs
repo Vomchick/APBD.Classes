@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
-using Tutorial10.Core.Models;
+using Tutorial10.Core.DataModels;
 
 namespace Tutorial10.Infrastructure.Extensions;
 

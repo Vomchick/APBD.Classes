@@ -17,5 +17,6 @@ public static class InfrastructureServicesExtension
         services.AddScoped<IPatientRepository, PatientRepository>();
         services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
         services.AddScoped<IMedicationRepository, MedicationRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }

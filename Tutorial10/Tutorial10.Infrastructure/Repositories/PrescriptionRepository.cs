@@ -1,5 +1,5 @@
 ﻿using Tutorial10.Application.Repositories;
-using Tutorial10.Core.Models;
+using Tutorial10.Core.DataModels;
 
 namespace Tutorial10.Infrastructure.Repositories;
 

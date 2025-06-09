@@ -1,5 +1,5 @@
 ﻿using Tutorial10.Application.DTO;
-using Tutorial10.Core.Models;
+using Tutorial10.Core.DataModels;
 
 namespace Tutorial10.Application.Mappers;
 

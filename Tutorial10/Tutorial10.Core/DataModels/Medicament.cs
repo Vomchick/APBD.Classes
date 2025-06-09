@@ -1,4 +1,4 @@
-﻿namespace Tutorial10.Core.Models;
+﻿namespace Tutorial10.Core.DataModels;
 
 public class Medicament
 {
